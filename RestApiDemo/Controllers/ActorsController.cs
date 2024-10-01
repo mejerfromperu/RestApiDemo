@@ -19,6 +19,10 @@ namespace RestApiDemo.Controllers
             _repo = repo;
         }
 
+
+
+
+
         // GET: api/<ActorsController>
         [HttpGet]
         public IActionResult Get()
@@ -32,6 +36,39 @@ namespace RestApiDemo.Controllers
         {
             return Ok(_repo.GetById(id));
         }
+
+
+        // Get Api
+        [HttpGet]
+        [Route("byName/{name}")]
+        public IActionResult Get(string name)
+        {
+            List<IActor> actors = _repo.GetAll();
+            IActor actor = actors.Find(x => x.Name.Contains(name));
+
+            return (actor is null) ? NotFound() : Ok(actor);
+        }
+
+        // Get Api
+        [HttpGet]
+        [Route("Sort")]
+        public IActionResult Sort()
+        {
+            List<IActor> actors = _repo.GetSortByName();
+
+            return actors.Count > 0 ? Ok(actors) : NotFound();
+        }
+
+        // filter
+        [HttpGet]
+        [Route("Serve")]
+        public IActionResult GetFilter([FromQuery] FilterDTO filter)
+        {
+            List<IActor> actors = _repo.GetByFilter(lowYear: filter.lowYear, highYear: filter.highYear);
+            return actors.Count == 0 ? NoContent() : Ok(actors);
+        }
+
+
 
         // POST api/<ActorsController>
         [HttpPost]
