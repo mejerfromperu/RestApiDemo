@@ -8,6 +8,12 @@ builder.Services.AddControllers();
 
 builder.Services.AddSingleton<IActorsRepository>(new ActorsRepository());
 
+builder.Services.AddCors(opt =>
+        opt.AddPolicy("AllowGetPut",
+             builder => builder.AllowAnyOrigin().AllowAnyHeader().WithMethods("GET", "PUT")
+             )
+);
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -22,6 +28,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+app.UseCors("AllowGetPut");
 
 app.MapControllers();
 
