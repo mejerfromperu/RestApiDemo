@@ -10,7 +10,7 @@ builder.Services.AddSingleton<IActorsRepository>(new ActorsRepository());
 
 builder.Services.AddCors(opt =>
         opt.AddPolicy("AllowGetPut",
-             builder => builder.AllowAnyOrigin().AllowAnyHeader().WithMethods("GET", "PUT")
+             builder => builder.AllowAnyOrigin().AllowAnyHeader().WithMethods("GET", "PUT", "POST", "DELETE")
              )
 );
 
